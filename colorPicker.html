@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColorPicker</title>
+
+    <!-- awesomefont -->
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fredoka+One&family=Teko:wght@400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #app {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        .app_inner {
+            height: 98%;
+            max-height: 1200px;
+            width: 100%;
+        }
+
+        .title {
+            font-family: 'Bebas Neue', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+            height: 8%;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2em;
+        }
+
+        .control {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+            height: 7%;
+            max-width: 800px;
+            margin: 0 auto;
+            /* border: 1px solid #e6e6e6; */
+        }
+
+        .control_row {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 50%;
+        }
+
+        .showImg {
+            display: flex;
+            height: 56%;
+            justify-content: center;
+            align-items: center;
+            width: 70%;
+            max-width: 800px;
+            margin: 1% auto;
+            border: 1px solid #e6e6e6;
+        }
+
+        .showImg img {
+            /* width: 100%; */
+        }
+
+        .colorBox {
+            position: relative;
+            width: 90%;
+            height: 25%;
+            max-width: 800px;
+            margin: 0 auto;
+            /* border: 1px solid black; */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #getColorButton {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 1.2em;
+            font-size: 1.2em;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            animation-name: getColorButtonAni;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+            cursor: pointer;
+            z-index: 1;
+            background: white;
+            color: orangered;
+        }
+
+        #getColorButton.display {
+            display: flex;
+        }
+
+        @keyframes getColorButtonAni {
+            0% {
+                box-shadow: 0px 0px 0px 0px rgba(255, 69, 0, 1);
+            }
+
+            50% {
+                box-shadow: 0px 0px 30px 1px rgba(255, 69, 0, 1);
+            }
+
+            100% {
+                box-shadow: 0px 0px 0px 0px rgba(255, 69, 0, 1);
+            }
+        }
+
+
+        .colorBox_row {
+            width: 100%;
+            height: 33%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: 0.5s;
+            padding: 10px;
+            z-index: 0;
+        }
+
+        .squareAndCode {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 33%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        .colorSquare {
+            width: 30%;
+            height: 100%;
+            border: 1px solid #dedede;
+            border-radius: 5px;
+        }
+
+        .colorCode {
+            font-family: 'Bebas Neue', cursive;
+            /* font-family: 'Fredoka One', cursive;
+            font-family: 'Teko', sans-serif; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 70%;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .display {
+            display: flex;
+            animation-name: displayAni;
+            animation-duration: 0.5s;
+            animation-fill-mode: forwards;
+        }
+
+        .display:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .display:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .display:nth-child(4) {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes displayAni {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+        }
+
+        .controlButton {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 50%;
+            height: 100%;
+            padding: 10px;
+            border: 1px solid #e6e6e6;
+            box-sizing: border-box;
+        }
+
+        .controlButton i {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 10%;
+            min-width: 20px;
+            height: 100%;
+        }
+
+        .controlButton span {
+            font-weight: 600;
+        }
+
+        .controlButton input[type="text"] {
+            height: 80%;
+            width: 70%;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .controlButton input[type="button"] {
+            height: 80%;
+            width: 20%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="app_inner">
+            <div class="title">
+                Color Picker
+            </div>
+            <div class="control">
+                <!-- 圖片輸入 -->
+                <div class="controlButton" onclick="document.getElementById('fileImg').click();">
+                    <i class="fas fa-upload"></i>
+                    <span>Upload Image</span>
+                    <input id="fileImg" style="display: none;" type='file' accept="image/*">
+                </div>
+                <!-- 網址輸入 -->
+                <div class="controlButton" for="">
+                    <i class="fas fa-link"></i>
+                    <input type="text" v-model="srcInput" placeholder="Image Src...">
+                    <input type="button" v-on:click="imgSrc = ''; srcInput=''" value="Clear">
+                </div>
+            </div>
+            <div class="showImg">
+                <img id="targetImg" v-bind:src="imgSrc" alt="">
+            </div>
+            <div class="colorBox">
+
+                <div id="getColorButton" v-on:click="showMainRGB()">
+                    <i class="fas fa-eye-dropper"></i>
+                </div>
+
+                <div class="colorBox_row">
+                    <div class="squareAndCode">
+                        <div class="colorSquare"></div><span class="colorCode"></span>
+                    </div>
+                    <div class="squareAndCode">
+                        <div class="colorSquare"></div><span class="colorCode"></span>
+                    </div>
+                    <div class="squareAndCode">
+                        <div class="colorSquare"></div><span class="colorCode"></span>
+                    </div>
+                </div>
+                <div class="colorBox_row">
+                    <div class="squareAndCode">
+                        <div class="colorSquare"></div><span class="colorCode"></span>
+                    </div>
+                    <div class="squareAndCode">
+                        <div class="colorSquare"></div><span class="colorCode"></span>
+                    </div>
+                    <div class="squareAndCode">
+                        <div class="colorSquare"></div><span class="colorCode"></span>
+                    </div>
+                </div>
+                <div class="colorBox_row">
+                    <div class="squareAndCode">
+                        <div class="colorSquare"></div><span class="colorCode"></span>
+                    </div>
+                    <div class="squareAndCode">
+                        <div class="colorSquare"></div><span class="colorCode"></span>
+                    </div>
+                    <div class="squareAndCode">
+                        <div class="colorSquare"></div><span class="colorCode"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Vue 3.0 cdn -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script>
+        const _0x2cf244=_0x1596;function _0x1596(_0x2daa37,_0xd4b369){const _0x3d122a=_0x3d12();return _0x1596=function(_0x15960a,_0x22d740){_0x15960a=_0x15960a-0x10c;let _0x2832aa=_0x3d122a[_0x15960a];return _0x2832aa;},_0x1596(_0x2daa37,_0xd4b369);}(function(_0x37b97b,_0x50fd1f){const _0x3feb28=_0x1596,_0x2960d6=_0x37b97b();while(!![]){try{const _0x20ba17=parseInt(_0x3feb28(0x132))/0x1*(parseInt(_0x3feb28(0x123))/0x2)+-parseInt(_0x3feb28(0x142))/0x3*(parseInt(_0x3feb28(0x12f))/0x4)+parseInt(_0x3feb28(0x133))/0x5+parseInt(_0x3feb28(0x14b))/0x6*(-parseInt(_0x3feb28(0x13a))/0x7)+-parseInt(_0x3feb28(0x126))/0x8+-parseInt(_0x3feb28(0x10e))/0x9+parseInt(_0x3feb28(0x148))/0xa;if(_0x20ba17===_0x50fd1f)break;else _0x2960d6['push'](_0x2960d6['shift']());}catch(_0x94cf51){_0x2960d6['push'](_0x2960d6['shift']());}}}(_0x3d12,0xcbfc5));let vm=Vue[_0x2cf244(0x12e)]({'data'(){return{'imgSrc':'','targetImg':{},'fileImg':{},'srcInput':''};},'watch':{'imgSrc':function(){const _0x295ffb=_0x2cf244;this[_0x295ffb(0x141)]=document[_0x295ffb(0x135)](_0x295ffb(0x141));let _0xe7873f=document[_0x295ffb(0x135)](_0x295ffb(0x141));_0xe7873f[_0x295ffb(0x118)][_0x295ffb(0x140)]=_0x295ffb(0x11d),_0xe7873f['style'][_0x295ffb(0x13d)]=_0x295ffb(0x11d),_0xe7873f[_0x295ffb(0x122)]=function(){const _0x51be95=_0x295ffb;let _0x26d0d9=document['getElementsByClassName']('showImg')[0x0];document['getElementById'](_0x51be95(0x147))[_0x51be95(0x113)][_0x51be95(0x115)](_0x51be95(0x13e));if(_0xe7873f[_0x51be95(0x11f)]>_0x26d0d9['offsetHeight']||_0xe7873f['offsetWidth']>_0x26d0d9[_0x51be95(0x12c)]){if(_0xe7873f[_0x51be95(0x11f)]>_0xe7873f[_0x51be95(0x12c)])_0xe7873f[_0x51be95(0x118)][_0x51be95(0x140)]=_0x51be95(0x10d);else _0xe7873f[_0x51be95(0x118)][_0x51be95(0x13d)]='100%';}};let _0x3800b5=document[_0x295ffb(0x129)](_0x295ffb(0x110));for(let _0x8767ac=0x0;_0x8767ac<_0x3800b5[_0x295ffb(0x131)];_0x8767ac++){_0x3800b5[_0x8767ac][_0x295ffb(0x113)]['remove'](_0x295ffb(0x13e));}let _0x231aec=document[_0x295ffb(0x129)](_0x295ffb(0x121));for(let _0x4ee5c1=0x0;_0x4ee5c1<_0x231aec['length'];_0x4ee5c1++){_0x231aec[_0x4ee5c1][_0x295ffb(0x118)]['opacity']='0';}},'srcInput':function(){const _0x272de5=_0x2cf244;if(this[_0x272de5(0x116)]!='')this[_0x272de5(0x119)]=this[_0x272de5(0x116)];}},'computed':{},'methods':{'getMainRGB':function(_0x438c51){const _0x5aeca2=_0x2cf244;let _0xd03be0=document[_0x5aeca2(0x143)](_0x5aeca2(0x114));_0x438c51[_0x5aeca2(0x124)]='Anonymous';let _0x13fbfe=0x5,_0x47719b={'r':0x0,'g':0x0,'b':0x0},_0x2af1ab=_0xd03be0['getContext']&&_0xd03be0[_0x5aeca2(0x11a)]('2d'),_0x8906ec,_0x2db227,_0x5e8476,_0x77ef35=-0x4,_0x41a554,_0xd1c533={'r':0x0,'g':0x0,'b':0x0},_0x254cca=0x0;if(!_0x2af1ab)return _0x47719b;_0x5e8476=_0xd03be0[_0x5aeca2(0x140)]=_0x438c51[_0x5aeca2(0x14c)]||_0x438c51[_0x5aeca2(0x11f)]||_0x438c51['height'],_0x2db227=_0xd03be0[_0x5aeca2(0x13d)]=_0x438c51[_0x5aeca2(0x127)]||_0x438c51[_0x5aeca2(0x12c)]||_0x438c51[_0x5aeca2(0x13d)],_0x2af1ab[_0x5aeca2(0x139)](_0x438c51,0x0,0x0);try{_0x8906ec=_0x2af1ab[_0x5aeca2(0x13b)](0x0,0x0,_0x2db227,_0x5e8476);}catch(_0x3a078e){return console['log']('X'),_0x47719b;}_0x41a554=_0x8906ec['data'][_0x5aeca2(0x131)],console[_0x5aeca2(0x11c)](_0x41a554);let _0x3c025c={},_0x42ca31={},_0x2badf0=[];while((_0x77ef35+=_0x13fbfe*0x4)<_0x41a554){let _0x3df49f='r'+_0x8906ec[_0x5aeca2(0x10f)][_0x77ef35]+'g'+_0x8906ec[_0x5aeca2(0x10f)][_0x77ef35+0x1]+'b'+_0x8906ec[_0x5aeca2(0x10f)][_0x77ef35+0x2];_0x3c025c[_0x3df49f]!=undefined?_0x42ca31[_0x3df49f]=_0x42ca31[_0x3df49f]+0x1:(_0x3c025c[_0x3df49f]={'r':_0x8906ec[_0x5aeca2(0x10f)][_0x77ef35],'g':_0x8906ec['data'][_0x77ef35+0x1],'b':_0x8906ec[_0x5aeca2(0x10f)][_0x77ef35+0x2]},_0x42ca31[_0x3df49f]=0x0);}for(const [_0x55f53f,_0x46819f]of Object[_0x5aeca2(0x130)](_0x42ca31)){let _0x234ce7=''+_0x55f53f,_0x214b77=''+_0x46819f;_0x2badf0[_0x5aeca2(0x111)]({'name':_0x234ce7,'count':_0x214b77});}_0x2badf0=_0x2badf0[_0x5aeca2(0x149)](function(_0x237862,_0x18fca1){const _0x19d7ff=_0x5aeca2;return _0x18fca1[_0x19d7ff(0x13f)]-_0x237862[_0x19d7ff(0x13f)];}),console[_0x5aeca2(0x11c)](_0x5aeca2(0x12d)+_0x2badf0[_0x5aeca2(0x131)]);let _0x313e70=0x3c;if(_0x2badf0[_0x5aeca2(0x131)]>=0x249f0)_0x313e70=0x78;else{if(_0x2badf0[_0x5aeca2(0x131)]>=0x186a0)_0x313e70=0x64;else _0x2badf0[_0x5aeca2(0x131)]>=0xc350&&(_0x313e70=0x50);}if(_0x2badf0[_0x5aeca2(0x131)]>0x9){let _0x432447=[],_0x3f7ee8=0x1,_0x16b459=_0x2badf0[0x0][_0x5aeca2(0x12a)];_0x432447[0x0]=_0x3c025c[_0x16b459];for(let _0xc6d4e3=0x0;_0xc6d4e3<_0x2badf0[_0x5aeca2(0x131)];_0xc6d4e3++){_0x16b459=_0x2badf0[_0xc6d4e3]['name'];let _0xb6feff=0x0;for(let _0x32b032=0x0;_0x32b032<_0x432447[_0x5aeca2(0x131)];_0x32b032++){let _0x5eea0f=Math[_0x5aeca2(0x128)](_0x432447[_0x32b032]['r']-_0x3c025c[_0x16b459]['r']),_0x3f24f4=Math[_0x5aeca2(0x128)](_0x432447[_0x32b032]['g']-_0x3c025c[_0x16b459]['g']),_0xfbcf40=Math['abs'](_0x432447[_0x32b032]['b']-_0x3c025c[_0x16b459]['b']);if(_0x5eea0f+_0x3f24f4>_0x313e70)_0xb6feff++;else{if(_0x5eea0f+_0xfbcf40>_0x313e70)_0xb6feff++;else _0xfbcf40+_0x3f24f4>_0x313e70&&_0xb6feff++;}_0xb6feff==_0x432447[_0x5aeca2(0x131)]&&(_0x432447[_0x3f7ee8]=_0x3c025c[_0x16b459],_0x3f7ee8++);}if(_0x3f7ee8>=0x9){for(let _0x5cd65f=0x0;_0x5cd65f<_0x432447['length'];_0x5cd65f++){for(let _0x349cd3=_0x5cd65f;_0x349cd3<_0x432447[_0x5aeca2(0x131)];_0x349cd3++){let _0x3609f9=_0x432447[_0x5cd65f]['r']*0.299+_0x432447[_0x5cd65f]['g']*0.587+_0x432447[_0x5cd65f]['b']*0.114,_0x3d1689=_0x432447[_0x349cd3]['r']*0.299+_0x432447[_0x349cd3]['g']*0.587+_0x432447[_0x349cd3]['b']*0.114;if(_0x3609f9<_0x3d1689){let _0x185f3e=_0x432447[_0x5cd65f],_0x233fc1=_0x432447[_0x349cd3];_0x432447[_0x5cd65f]=_0x233fc1,_0x432447[_0x349cd3]=_0x185f3e;}}}return _0x432447;}if(_0x432447[_0x5aeca2(0x131)]<0x9){}}return _0x432447;}return[];},'showMainRGB':function(){const _0x2cdea4=_0x2cf244;let _0x3adbc2=this[_0x2cdea4(0x10c)](this[_0x2cdea4(0x141)]);setTimeout(()=>{const _0x38cbcd=_0x2cdea4;document['getElementById']('getColorButton')[_0x38cbcd(0x113)][_0x38cbcd(0x117)]('display'),_0x3adbc2=this[_0x38cbcd(0x10c)](this[_0x38cbcd(0x141)]),this['fillColorIn'](_0x3adbc2);},0x1f4);},'fillColorIn':function(_0x22e5e7){const _0x56e407=_0x2cf244;let _0xc61f15=document[_0x56e407(0x129)](_0x56e407(0x110)),_0x5af2a4=document[_0x56e407(0x129)](_0x56e407(0x121)),_0x497023=document[_0x56e407(0x129)](_0x56e407(0x14d)),_0x1ae048=document[_0x56e407(0x129)](_0x56e407(0x145));for(let _0x19608c=0x0;_0x19608c<_0x22e5e7[_0x56e407(0x131)];_0x19608c++){let _0x164290=_0x22e5e7[_0x19608c]['r'],_0x2751eb=_0x22e5e7[_0x19608c]['g'],_0x41f849=_0x22e5e7[_0x19608c]['b'];_0x497023[_0x19608c][_0x56e407(0x118)][_0x56e407(0x14a)]=_0x56e407(0x13c)+_0x164290+','+_0x2751eb+','+_0x41f849+')',_0x164290=this[_0x56e407(0x11b)](parseInt(_0x164290)[_0x56e407(0x146)](0x10)),_0x2751eb=this[_0x56e407(0x11b)](parseInt(_0x2751eb)['toString'](0x10)),_0x41f849=this['addz'](parseInt(_0x41f849)[_0x56e407(0x146)](0x10)),_0x1ae048[_0x19608c][_0x56e407(0x138)]='#'+_0x164290+_0x2751eb+_0x41f849,_0x5af2a4[_0x19608c][_0x56e407(0x118)][_0x56e407(0x112)]='1';if(_0x19608c<0x3)_0xc61f15[0x0]['classList']['add'](_0x56e407(0x13e));else _0x19608c<0x6?_0xc61f15[0x1][_0x56e407(0x113)][_0x56e407(0x115)](_0x56e407(0x13e)):_0xc61f15[0x2][_0x56e407(0x113)][_0x56e407(0x115)]('display');}},'addz':function(_0x244bb4){return _0x244bb4['length']<0x2?'0'+_0x244bb4:_0x244bb4;},'uploadImg':function(_0x427b16){const _0x4d96cb=_0x2cf244;this[_0x4d96cb(0x116)]='';const _0x5a38af=_0x427b16[_0x4d96cb(0x125)][_0x4d96cb(0x14e)][0x0],_0x34227e=new FileReader();_0x34227e['onloadend']=()=>{const _0x5000a5=_0x4d96cb;console['log'](_0x34227e[_0x5000a5(0x144)]),this['imgSrc']=_0x34227e[_0x5000a5(0x144)];},_0x34227e['readAsDataURL'](_0x5a38af);}},'beforeCreate'(){},async 'created'(){},'beforeMount'(){},async 'mounted'(){const _0x5cf48f=_0x2cf244;let _0x2c8e15=document[_0x5cf48f(0x135)](_0x5cf48f(0x136));_0x2c8e15[_0x5cf48f(0x12b)](_0x5cf48f(0x11e),_0x14766c=>{const _0x543730=_0x5cf48f;this[_0x543730(0x120)](_0x14766c);});}});vm[_0x2cf244(0x137)](_0x2cf244(0x134));function _0x3d12(){const _0x4177d5=['push','opacity','classList','canvas','add','srcInput','remove','style','imgSrc','getContext','addz','log','auto','change','offsetHeight','uploadImg','squareAndCode','onload','6634ivnAwO','crossOrigin','target','3772240eaVvly','naturalWidth','abs','getElementsByClassName','name','addEventListener','offsetWidth','colorArray.length:','createApp','951824UdHxeV','entries','length','41fysEhj','7750725ggEpzy','#app','getElementById','fileImg','mount','textContent','drawImage','5831nFsmBx','getImageData','rgb(','width','display','count','height','targetImg','9EsfLnu','createElement','result','colorCode','toString','getColorButton','20997170ilPhUh','sort','background','6018rfdnpQ','naturalHeight','colorSquare','files','getMainRGB','100%','8364933XJXsnT','data','colorBox_row'];_0x3d12=function(){return _0x4177d5;};return _0x3d12();}
+    </script>
+
+</body>
+
+</html>
